@@ -27,6 +27,7 @@
     <rule class='org.codenarc.rule.convention.NoFloatRule'/>
     <rule class='org.codenarc.rule.convention.NoJavaUtilDateRule'/>
     <rule class='org.codenarc.rule.convention.NoTabCharacterRule'/>
+    <rule class='org.codenarc.rule.convention.OneTopLevelClassRule'/>
     <rule class='org.codenarc.rule.convention.ParameterReassignmentRule'/>
     <rule class='org.codenarc.rule.convention.PublicMethodsBeforeNonPublicMethodsRule'/>
     <rule class='org.codenarc.rule.convention.StaticFieldsBeforeInstanceFieldsRule'/>
