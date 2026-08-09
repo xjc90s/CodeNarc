@@ -21,6 +21,7 @@ ruleset {
         exclude 'VariableTypeRequired'
         exclude 'ImplicitClosureParameter'
         exclude 'ImplicitReturnStatement'
+		exclude 'OneTopLevelClass'
         FieldTypeRequired(doNotApplyToFilesMatching:TEST_FILES)
     }
 

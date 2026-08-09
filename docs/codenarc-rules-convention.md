@@ -447,6 +447,17 @@ somewhere above the violation will disable this rule. See
 [Disabling Rules From Comments](./codenarc-configuring-rules.html#disabling-rules-from-comments).
 
 
+## OneTopLevelClass Rule
+
+*Since CodeNarc 4.0.0*
+
+Checks that each source file contains only one top-level class / enum / interface.
+
+NOTE: This is a file-based rule, rather than an AST-based rule, so the *applyToClassNames* and
+*doNotApplyToClassNames* rule configuration properties are not available. See
+[Standard Properties for Configuring Rules](./codenarc-configuring-rules.html#standard-properties-for-configuring-rules).
+
+
 ## ParameterReassignment Rule
 
 *Since CodeNarc 0.17*
