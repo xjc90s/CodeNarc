@@ -117,6 +117,25 @@ class ConfusingMethodNameRuleTest extends AbstractRuleTestCase<ConfusingMethodNa
     }
 
     @Test
+    void testFieldNamedPropertiesDoesNotBreakRule() {
+        // On Groovy 5, subscript-assigning a Map with the key 'properties' routes
+        // through the read-only 'properties' meta-property and throws
+        // ReadOnlyPropertyException (GROOVY-12024), which aborted this rule for
+        // any class declaring a field named 'properties'. See #832.
+        final SOURCE = '''
+            class MyClass {
+                int properties
+                def Foo = {}        // this one is a closure!
+                def foo() {}
+                def foO() {}
+            }
+        '''
+        assertTwoViolations(SOURCE,
+                5, 'def foo() {}',
+                6, 'def foO() {}')
+    }
+
+    @Test
     void test2ViolationsInClassWithOverloading() {
         final SOURCE = '''
             class MyClass {
