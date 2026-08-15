@@ -1,7 +1,17 @@
 <!-- markdownlint-disable MD003 MD004 MD007 MD032 -->
 # CodeNarc Change Log
 
-Version 4.0.x  (Jul 2026)
+
+TODO: Version 4.1.0  (xxx 2026)
+--------------------------------------
+New Rules
+- #834: New **OneTopLevelClass** rule. ([rinsley](https://github.com/rinsley)
+
+Updated/Enhanced Rules and Bug Fixes
+- #832: **ConfusingMethodNameRule**: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))
+
+
+Version 4.0.0  (Jul 2026)
 --------------------------------------
 Breaking Changes
  - Drop support for Groovy 3.x.
@@ -11,7 +21,6 @@ Breaking Changes
 
 New / Updated Rules
  - #820: Add **SpockUseVerifyEach** rule, [Leonard Brünings](https://github.com/leonard84)) 
- - #832: **ConfusingMethodNameRule**: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))
 
 Reports
  - #807: `SarifReportWriter`: New report writer for SARIF. ([Alexandre Garnier](https://github.com/zigarn))

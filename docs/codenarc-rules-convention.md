@@ -449,7 +449,7 @@ somewhere above the violation will disable this rule. See
 
 ## OneTopLevelClass Rule
 
-*Since CodeNarc 4.0.0*
+*Since CodeNarc 4.1.0*
 
 Checks that each source file contains only one top-level class / enum / interface.
 
