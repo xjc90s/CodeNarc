@@ -89,7 +89,10 @@ class ScopedConfusingMethodNameAstVisitor extends AbstractAstVisitor<ConfusingMe
             lowercaseClosureNames.add(methodName)
         } else {
             String fieldName = node.name.toLowerCase()
-            lowercaseFieldNames[fieldName] = node.name
+            // Use put() rather than the subscript operator: on Groovy 5 a key
+            // like 'properties' resolves to the read-only Map meta-property and
+            // throws ReadOnlyPropertyException (GROOVY-12024). See #832.
+            lowercaseFieldNames.put(fieldName, node.name)
         }
         super.visitField(node)
     }

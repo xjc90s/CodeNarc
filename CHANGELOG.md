@@ -11,6 +11,7 @@ Breaking Changes
 
 New / Updated Rules
  - #820: Add **SpockUseVerifyEach** rule, [Leonard Brünings](https://github.com/leonard84)) 
+ - #832: **ConfusingMethodNameRule**: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))
 
 Reports
  - #807: `SarifReportWriter`: New report writer for SARIF. ([Alexandre Garnier](https://github.com/zigarn))
