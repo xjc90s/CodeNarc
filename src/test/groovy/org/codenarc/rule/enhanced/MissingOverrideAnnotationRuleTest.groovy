@@ -252,6 +252,21 @@ class MissingOverrideAnnotationRuleTest extends AbstractRuleTestCase<MissingOver
         assertNoViolations(SOURCE)
     }
 
+    @Test
+    void testClassWithPropertiesMethod_NoViolations() {
+        final SOURCE = '''
+            class Base {
+                Iterator properties() { [].iterator() }
+            }
+            
+            class Child extends Base {
+                @Override
+                Iterator properties() { [].iterator() }
+            }
+        '''
+        assertNoViolations(SOURCE)
+    }
+
     @Override
     protected MissingOverrideAnnotationRule createRule() {
         new MissingOverrideAnnotationRule()

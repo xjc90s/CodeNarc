@@ -87,7 +87,9 @@ class MissingOverrideAnnotationAstVisitor extends AbstractAstVisitor<MissingOver
 
     private MethodNode findMatchingSuperClassMethod(String name, List<Parameter> parameters) {
         def superClassMethods = superClassMethodsDeque.peek()
-        def methodsWithSameName = superClassMethods[name]
+        // Use get() rather than the subscript operator: on Groovy 5 a key like 'properties' resolves to the GDK
+        // meta-property properties of the map object itself (a LinkedHashMap of the map's own Groovy properties). See #833.
+        def methodsWithSameName = superClassMethods.get(name)
         methodsWithSameName.find { superClassMethodNode ->
             parameters*.type == superClassMethodNode.parameters*.type
         }
@@ -98,11 +100,13 @@ class MissingOverrideAnnotationAstVisitor extends AbstractAstVisitor<MissingOver
     }
 
     private Map<String, Set<MethodNode>> findSuperClassMethods(ClassNode node) {
-        def nameToMethods = [:].withDefault { [] as Set }
+        Map<String, Set<MethodNode>> nameToMethods = [:].withDefault { [] as Set }
         List<MethodNode> superClassAndInterfacesMethods = node.superClass.allDeclaredMethods + interfaceMethods(node)
         superClassAndInterfacesMethods.each { methodNode ->
             if (!methodNode.isPrivate()) {
-                nameToMethods[methodNode.name] << methodNode
+                // Use get() rather than the subscript operator: on Groovy 5 a key like 'properties' resolves to the GDK
+                // meta-property properties of the map object itself (a LinkedHashMap of the map's own Groovy properties). See #833.
+                nameToMethods.get(methodNode.name) << methodNode
             }
         }
         nameToMethods

@@ -8,7 +8,8 @@ New Rules
 - #834: New **OneTopLevelClass** rule. ([rinsley](https://github.com/rinsley)
 
 Updated/Enhanced Rules and Bug Fixes
-- #832: **ConfusingMethodNameRule**: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))
+- #832: **ConfusingMethodNameRule** rule: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))
+- #833: **MissingOverrideAnnotation** rule: Fix `MissingMethodException` on Groovy 5 when a superclass declares a `properties()` method.
 
 
 Version 4.0.0  (Jul 2026)
