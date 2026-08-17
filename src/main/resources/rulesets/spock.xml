@@ -7,4 +7,8 @@
         Spock rule set.
     </description>
 
+    <rule class='org.codenarc.rule.spock.SpockIgnoreRestUsedRule'/>
+    <rule class='org.codenarc.rule.spock.SpockMissingAssertRule'/>
+    <rule class='org.codenarc.rule.spock.SpockUseVerifyEachRule'/>
+
 </ruleset>

@@ -6,7 +6,7 @@ TODO: Version 4.1.0  (xxx 2026)
 --------------------------------------
 New Rules and RuleSets
 - #834: New **OneTopLevelClass** rule. ([rinsley](https://github.com/rinsley)
-- #835: Create new “spock” ruleset for Spock rules
+- #835: Create new “spock” ruleset for Spock rules. Move three existing Spock rules into the new “spock” ruleset: `SpockIgnoreRestUsed`, `SpockMissingAssert`, `SpockUseVerifyEach`. NOTE: Disable those rules in the “junit” ruleset.
 
 Updated/Enhanced Rules and Bug Fixes
 - #832: **ConfusingMethodNameRule** rule: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))
