@@ -45,6 +45,7 @@ class RuleSets {
         'rulesets/security.xml',
         'rulesets/serialization.xml',
         'rulesets/size.xml',
+        'rulesets/spock.xml',
         'rulesets/unnecessary.xml',
         'rulesets/unused.xml'
     ]

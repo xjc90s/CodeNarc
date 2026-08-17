@@ -4,8 +4,9 @@
 
 TODO: Version 4.1.0  (xxx 2026)
 --------------------------------------
-New Rules
+New Rules and RuleSets
 - #834: New **OneTopLevelClass** rule. ([rinsley](https://github.com/rinsley)
+- #835: Create new “spock” ruleset for Spock rules
 
 Updated/Enhanced Rules and Bug Fixes
 - #832: **ConfusingMethodNameRule** rule: Fix `ReadOnlyPropertyException` on Groovy 5 for a class with a field named `properties`. ([youdie006](https://github.com/youdie006))

@@ -76,7 +76,7 @@ Error: $t.message
             def ruleSet = new XmlFileRuleSet(ruleSetPath)
             def rules = ruleSet.rules
             log("[$ruleSetPath] rules=$rules")
-            assert rules
+            assert rules != null
 
             rules.each(assertion)
         }
