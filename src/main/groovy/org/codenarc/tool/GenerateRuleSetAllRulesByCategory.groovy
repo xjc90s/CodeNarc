@@ -19,7 +19,6 @@ import groovy.text.SimpleTemplateEngine
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.codenarc.ruleset.RuleSets
-import org.codenarc.ruleset.XmlFileRuleSet
 
 /**
  * Java application (main() method) that generates the "StarterRuleSet-AllRulesByCategory.groovy.txt" file.
@@ -43,8 +42,7 @@ class GenerateRuleSetAllRulesByCategory {
     static void main(String[] args) {
         def rulesByRuleSet = [:]
         RuleSets.ALL_RULESET_FILES.each { ruleSetPath ->
-            def ruleSet = new XmlFileRuleSet(ruleSetPath)
-            rulesByRuleSet[ruleSetPath] = GenerateUtil.sortRules(ruleSet.rules)
+            rulesByRuleSet[ruleSetPath] = GenerateUtil.getRulesFromXmlRuleSet(ruleSetPath)
         }
 
         LOG.info("rulesByCategory=$rulesByRuleSet")

@@ -15,6 +15,8 @@
  */
 package org.codenarc.tool
 
+import static org.codenarc.test.TestUtil.shouldFail
+
 import org.codenarc.rule.Rule
 import org.codenarc.test.AbstractTestCase
 import org.junit.jupiter.api.Test
@@ -45,6 +47,25 @@ class GenerateUtilTest extends AbstractTestCase {
         def ruleExtraInformation1 = GenerateUtil.getRuleExtraInformation()
         def ruleExtraInformation2 = GenerateUtil.getRuleExtraInformation()
         assert ruleExtraInformation1.is(ruleExtraInformation2)
+    }
+
+    @Test
+    void testGetRulesFromXmlRuleSet_ReturnsRulesFromRuleSetSortedByName() {
+        def rules = GenerateUtil.getRulesFromXmlRuleSet('rulesets/basic.xml')
+
+        def ruleNames = rules*.name
+        assert ruleNames.contains('EmptyCatchBlock')
+        assert ruleNames == ruleNames.sort(false)
+    }
+
+    @Test
+    void testGetRulesFromXmlRuleSet_NullPath_ThrowsAssertionError() {
+        shouldFail(AssertionError) { GenerateUtil.getRulesFromXmlRuleSet(null) }
+    }
+
+    @Test
+    void testGetRulesFromXmlRuleSet_UnknownPath_ThrowsException() {
+        shouldFail { GenerateUtil.getRulesFromXmlRuleSet('rulesets/DoesNotExist.xml') }
     }
 
     @Test
