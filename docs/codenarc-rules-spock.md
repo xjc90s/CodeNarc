@@ -86,6 +86,105 @@ Example of violations:
 | specificationSuperclassNames| Specifies one or more (comma-separated) class names that should be treated as Spock Specification superclasses. In other words, a class that extends a matching class name is considered a Spock Specification . The class names may optionally contain wildcards (*,?), e.g. "*Spec". | "*Specification" |
 
 
+## SpockMissingReason Rule
+
+*Since CodeNarc 4.1.0*
+
+Always document why a test is disabled. Without a clear reason, developers will leave an `@Ignore` in place rather than risk breaking something, permanently losing that test coverage.
+Spock makes this easy by accepting a reason string on every skip annotation.
+
+The rule reports the following annotations - on a feature method or on the specification class - when they state no
+reason:
+
+| Annotation          | Reason member |
+|---------------------|---------------|
+| `@Ignore`           | `value`       |
+| `@PendingFeature`   | `reason`      |
+| `@Isolated`         | `value`       |
+
+A reason that is not a `String` literal - a GString, a constant reference, any other expression - always counts as
+present; only a missing or blank literal is reported.
+`@Retry` is not handled here, as it has no reason member.
+
+`@Requires`, `@IgnoreIf` and `@PendingFeatureIf` accept a `reason` too, but a self-explanatory condition such as
+`@IgnoreIf({ os.windows })` does not need one, and that is not a judgement CodeNarc can make.
+These three are therefore only
+checked when the *checkConditionalAnnotations* property is enabled, and listing them in *annotationNames* has no effect.
+
+The advice in the message follows what the annotation actually means: `@Isolated` asks why the specification
+must run in isolation rather than why it is disabled, and `@PendingFeature` asks why the feature is expected
+to fail rather than treating it as skipped.
+
+The *reasonRegex* property additionally requires the reason to match a pattern - set it to `SPOCK-\d+` to
+require an issue id, or to `https?://` to require a link.
+The reason has to *contain* a match, so `@Ignore("flaky on Windows, see SPOCK-1234")` satisfies `SPOCK-\d+`.
+It applies only to the annotations named in *reasonRegexAnnotationNames*, and only to a reason that is a `String`
+literal - the content of a GString or a constant reference cannot be inspected, so it always passes.
+An annotation with no reason at all is reported for the missing reason alone, never twice.
+
+Example of violations:
+
+```
+    class MySpec extends spock.lang.Specification {
+        @Ignore                                             // violation - no reason given
+        def "first feature"() {
+            expect: false
+        }
+
+        @PendingFeature                                     // violation - no reason given
+        def "second feature"() {
+            expect: false
+        }
+
+        @Ignore("")                                         // violation - a blank reason is not a reason
+        def "third feature"() {
+            expect: false
+        }
+
+        @Ignore("flaky on Windows, see #1790")              // no violation
+        def "fourth feature"() {
+            expect: false
+        }
+
+        @PendingFeature(reason = "coalescing not implemented yet")   // no violation
+        def "fifth feature"() {
+            expect: false
+        }
+
+        @IgnoreIf({ os.windows })                           // no violation - unless checkConditionalAnnotations is enabled
+        def "sixth feature"() {
+            expect: false
+        }
+    }
+```
+
+Example of violations with *reasonRegex* set to `SPOCK-\d+`:
+
+```
+    @Isolated("needs the shared port")                      // no violation - not in reasonRegexAnnotationNames
+    class MySpec extends spock.lang.Specification {
+        @Ignore("flaky on Windows")                         // violation - the reason states no issue id
+        def "first feature"() {
+            expect: false
+        }
+
+        @Ignore("flaky on Windows, see SPOCK-1234")         // no violation
+        def "second feature"() {
+            expect: false
+        }
+    }
+```
+
+| Property                    | Description            | Default Value    |
+|-----------------------------|------------------------|------------------|
+| annotationNames             | Specifies one or more (comma-separated) simple annotation names that must state a reason. Teams can add their own project-specific skip annotations here. For an annotation that is not one of the built-in Spock ones, a value in either the `value` or the `reason` member counts as a reason. Has no effect on the conditional annotations, which *checkConditionalAnnotations* governs on its own. Setting this property replaces the default list, so a team adding its own names must specify the full list, including `Ignore, PendingFeature, Isolated`, if those should still be checked. | "Ignore, PendingFeature, Isolated" |
+| checkConditionalAnnotations | If `true`, the conditional annotations - `@Requires`, `@IgnoreIf` and `@PendingFeatureIf` - must state a `reason` as well. | `false` |
+| reasonRegex                 | If set, a stated reason must contain a match for this regular expression - use it to require an issue id (`SPOCK-\d+`) or a link (`https?://`). Unset by default, which leaves the content of a reason unchecked. Only a reason that is a `String` literal is matched. | `null` |
+| reasonRegexAnnotationNames  | Specifies one or more (comma-separated) simple annotation names that *reasonRegex* applies to; only relevant when that property is set. The conditional annotations and `@Isolated` are excluded by default: their reason explains a standing condition (`@IgnoreIf(value = { os.windows }, reason = "no native lib on Windows")`) or an execution constraint (`@Isolated("needs the shared port")`), which is not work to be tracked. Setting this property replaces the default list, so a team adding its own names must specify the full list, including `Ignore, PendingFeature`, if those should still be checked. | "Ignore, PendingFeature" |
+| specificationClassNames     | Specifies one or more (comma-separated) class names that should be treated as Spock Specification classes. The class names may optionally contain wildcards (*,?), e.g. "*Spec". | `null` |
+| specificationSuperclassNames| Specifies one or more (comma-separated) class names that should be treated as Spock Specification superclasses. In other words, a class that extends a matching class name is considered a Spock Specification . The class names may optionally contain wildcards (*,?), e.g. "*Spec". | "*Specification" |
+
+
 ## SpockUnnecessaryAssert Rule
 
 *Since CodeNarc 4.1.0*
